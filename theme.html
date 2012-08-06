@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html  xmlns="http://www.w3.org/1999/xhtml" xml:lang="<{$xoops_langcode}>" lang="<{$xoops_langcode}>">
+<head>
+	<!-- do not remove
+    framework by bleekk
+    www.bleekk.com
+    -->
+	<!-- Theme name -->
+	<{assign var=theme_name value=$xoTheme->folderName}>
+    
+    <!-- Directory html files -->
+	<{assign var=theme_name value=$xoTheme->folderName|cat:'/xotpl'}>
+    
+    <!-- Titel und meta -->
+    <meta http-equiv="Content-Type" content="text/html; charset=<{$xoops_charset}>"/>
+    <title><{if $xoops_pagetitle !=''}><{$xoops_pagetitle}> : <{/if}><{$xoops_sitename}></title>
+	<meta name="robots" content="<{$xoops_meta_robots}>" />
+	<meta name="keywords" content="<{$xoops_meta_keywords}>" />
+	<meta name="description" content="<{$xoops_meta_description}>" />
+	<meta name="rating" content="<{$xoops_meta_rating}>" />
+	<meta name="author" content="<{$xoops_meta_author}>" />
+	<meta name="copyright" content="<{$xoops_meta_copyright}>" />
+	<meta name="generator" content="" />
+    
+    <!-- Favicon -->
+	<link rel="shortcut icon" type="image/ico" href="<{xoImgUrl icons/favicon.ico}>" />
+	<link rel="icon" type="image/png" href="<{xoImgUrl icons/icon.png}>" />
+    
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" media="all" title="Style sheet" href="<{xoAppUrl xoops.css}>" />
+	<link rel="stylesheet" type="text/css" media="all" href="<{xoImgUrl style.css}>" />
+	
+    <!-- Module Header -->
+    <{$xoops_module_header}>
+	
+</head>
+
+<body>
+<!-- 
+check if 2 or 3 columns are displayed, change then width of center column and center blocks
+ -->
+<{if $xoBlocks.canvas_left and $xoBlocks.canvas_right}>
+<{assign var=columns_layout value='threecolumn-layout'}><!-- dreispalten -->
+<{assign var=block_layout value='threecolumn-block'}>
+<{elseif $xoBlocks.canvas_left}>
+<{assign var=columns_layout value='twocolumn-layout'}><!-- zweispalten -->
+<{assign var=block_layout value='twocolumn-block'}>
+<{elseif $xoBlocks.canvas_right}>
+<{assign var=columns_layout value='twocolumn-layout'}>
+<{assign var=block_layout value='twocolumn-block'}>
+<{else}>
+<{assign var=columns_layout value='row'}>
+<{assign var=block_layout value='fullwidth-block'}><!-- vollansicht -->
+<{/if}>
+    
+<!-- Header -->
+<div class="row" id="header2">
+	<a href="<{xoAppUrl}>"><{$xoops_sitename}></a>
+	<span><{$xoops_slogan}></span>
+	<div class="clear"></div>
+</div>    
+<div class="clear"></div>
+<!-- Topmenu -->
+<div id="topmenu" class="row">
+	<ul>
+	  <li><a href="<{xoAppUrl}>">Home</a></li>
+	  <li><a href="#">Link1</a></li>
+	  <li><a href="#">Link2</a></li>
+	  <li><a href="#">Link3</a></li>
+	  <li><a href="#">Link4</a></li>
+	  <li><a href="#">Link5</a></li>
+	</ul>
+</div>
+<!-- END Topmenu -->
+<div class="clear"></div>
+
+<div class="row" id="main-container">
+<div class="row" id="m-container">
+	<!-- Left Column / Blocks -->
+    <{if $xoBlocks.canvas_left}>
+      <div id="leftcolumn">
+          <{foreach item=block from=$xoBlocks.canvas_left}>
+              <{include file="$theme_name/theme_blockleft.html"}>
+          <{/foreach}>
+      </div>
+    <{/if}>
+    <!-- ENDE left column -->
+    <!-- Center Column -->
+	<div id="centercolumn" class="<{if $columns_layout}><{$columns_layout}><{/if}>">
+       <!-- Center TOP Blocks -->
+    	<{if $xoBlocks.page_topleft or $xoBlocks.page_topcenter or $xoBlocks.page_topright}>
+          <div class="centerblock-center <{if $columns_layout}><{$columns_layout}><{/if}>">
+              <{foreach item=block from=$xoBlocks.page_topcenter}>
+                  <{includeq file="$theme_name/theme_blockcenter_c.html"}>
+              <{/foreach}>
+          </div>
+          <div class="centerblock-left <{if $columns_layout}><{$block_layout}><{/if}>">
+              <{foreach item=block from=$xoBlocks.page_topleft}>
+                  <{includeq file="$theme_name/theme_blockcenter_l.html"}>
+              <{/foreach}>
+          </div>
+          <div class="centerblock-right <{if $columns_layout}><{$block_layout}><{/if}>">
+              <{foreach item=block from=$xoBlocks.page_topright}>
+                  <{include file="$theme_name/theme_blockcenter_r.html"}>
+              <{/foreach}>
+          </div>
+          <div class="clear"></div>
+        <{/if}>
+        <!-- END Center TOP Blocks -->
+        <{if $xoops_contents}>  
+		  <div class="page-content">
+		  	<div class="page-content-inner">
+              <{$xoops_contents}>
+			</div>
+          </div>
+		<{/if}>
+        <!-- Center BOTTOM Blocks -->
+        <{if $xoBlocks.page_bottomleft or $xoBlocks.page_bottomright or $xoBlocks.page_bottomcenter}>
+        <div class="centerblock-left <{if $columns_layout}><{$block_layout}><{/if}>">
+        	<{foreach item=block from=$xoBlocks.page_bottomleft}>
+				<{include file="$theme_name/theme_blockcenter_l.html"}>
+			<{/foreach}>
+        </div>
+    	<div class="centerblock-right <{if $columns_layout}><{$block_layout}><{/if}>">
+        	<{foreach item=block from=$xoBlocks.page_bottomright}>
+				<{include file="$theme_name/theme_blockcenter_r.html"}>
+			<{/foreach}>
+        </div>
+        <div class="clear"></div>
+		<div class="centerblock-center <{if $columns_layout}><{$columns_layout}><{/if}>">
+        	<{foreach item=block from=$xoBlocks.page_bottomcenter}>
+				<{include file="$theme_name/theme_blockcenter_c.html"}>
+            <{/foreach}>
+        </div>
+        <{/if}>
+        <!-- END Center BOTTOM Blocks -->
+    </div>
+    <!-- END center Column -->
+    
+    <!-- Right Column / Blocks -->
+    <{if $xoBlocks.canvas_right}>
+	<div id="rightcolumn">
+    	<{foreach item=block from=$xoBlocks.canvas_right}>
+        	<{include file="$theme_name/theme_blockright.html"}>
+        <{/foreach}>
+    </div>
+    <{/if}>
+    <!-- ENDE right column -->
+    <div class="clear"></div>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="row" id="footer">
+	Design by <a href="http://www.bleekk.com" title="bleekk.com">bleekk.com</a> | <{$xoops_footer}>
+</div>
+
+</body>
+</html>
